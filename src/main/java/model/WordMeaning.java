@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "word_meaning")
 
 public class WordMeaning {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,6 +15,9 @@ public class WordMeaning {
 
     @Column(nullable = false,name = "meaning")
     private String meaning;
+
+    @Column(nullable = false)
+    private String mobile;
 
     public Long getId() {
         return id;
@@ -27,6 +29,10 @@ public class WordMeaning {
 
     public String getMeaning() {
         return meaning;
+    }
+
+    public String getMobile() {
+        return mobile;
     }
 
     public void setId(Long id) {
@@ -41,12 +47,17 @@ public class WordMeaning {
         this.meaning = meaning;
     }
 
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     @Override
     public String toString() {
         return "WordMeaning{" +
                 "id=" + id +
                 ", word='" + word + '\'' +
                 ", meaning='" + meaning + '\'' +
+                ", mobile='" + mobile + '\'' +
                 '}';
     }
 }

@@ -1,11 +1,13 @@
 package service;
 
 import dao.WordRepository;
+import errorHandle.DuplicateWordException;
 import errorHandle.ResourceNotFoundException;
 import model.WordMeaning;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WordService {
@@ -26,7 +28,11 @@ public class WordService {
     }
 
     public WordMeaning create(WordMeaning wordMeaning) {
-        return repo.save(wordMeaning);
+        if (repo.existsByWord(wordMeaning.getWord())) {
+            throw new DuplicateWordException("Word already exists: " + wordMeaning.getWord());
+        } else {
+            return repo.save(wordMeaning);
+        }
     }
 
     public WordMeaning update(Long id, WordMeaning updatedWord) {
@@ -41,5 +47,8 @@ public class WordService {
             throw new ResourceNotFoundException("Word not found with ID " + id);
         }
         repo.deleteById(id);
+    }
+    public List<WordMeaning> findWordsByMobile(String mobile){
+        return repo.findWordsByMobile(mobile);
     }
 }

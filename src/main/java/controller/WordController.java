@@ -8,6 +8,7 @@ import service.WordService;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/words")
@@ -44,5 +45,10 @@ public class WordController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{mobile}")
+    public List<WordMeaning> findWordByMobile(@PathVariable Long mobile){
+        return service.findWordsByMobile(String.valueOf(mobile));
     }
 }
