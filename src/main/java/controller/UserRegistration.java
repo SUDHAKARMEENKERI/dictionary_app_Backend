@@ -9,6 +9,7 @@ import service.UserSignUpService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
@@ -47,7 +48,7 @@ public class UserRegistration {
         if (isAuthenticated) {
             response.put("status", "success");
             response.put("message", "Login successful");
-            response.put("mobile", request.getMobile()); // example data
+            response.put("mobile", request.getMobile());
             response.put("isLogIn", true);
             return ResponseEntity.ok(response);
         } else {
@@ -56,7 +57,10 @@ public class UserRegistration {
             response.put("isLogIn", false);
             return ResponseEntity.status(401).body(response);
         }
-
+    }
+    @GetMapping("/userDetails/{mobile}")
+    public Optional<UserSignUp> getUserDetails(@PathVariable Long mobile){
+        return userSignUpService.getUserDetetails(mobile);
     }
 
 }

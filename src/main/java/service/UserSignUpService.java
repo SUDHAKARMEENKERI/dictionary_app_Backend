@@ -4,10 +4,10 @@ import dao.UserSignUpRepository;
 import errorHandle.DuplicateWordException;
 import errorHandle.ResourceNotFoundException;
 import model.UserSignUp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserSignUpService {
@@ -59,4 +59,9 @@ public class UserSignUpService {
                 .map(user ->  (user.getPassword()).equals(password))
                 .orElse(false);
     }
+
+    public Optional<UserSignUp> getUserDetetails(Long mobile){
+        return repo.findByMobile(String.valueOf(mobile));
+    }
+
 }

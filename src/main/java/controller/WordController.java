@@ -1,5 +1,6 @@
 package controller;
 
+import model.UserSignUp;
 import model.WordMeaning;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +52,5 @@ public class WordController {
     public List<WordMeaning> findWordByMobile(@PathVariable Long mobile){
         return service.findWordsByMobile(String.valueOf(mobile));
     }
+
 }
