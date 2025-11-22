@@ -23,7 +23,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # ✅ Correct path: copy from builder’s /app/target directory
-COPY --from=builder /app/target/dictionaryApp-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 9090
 
