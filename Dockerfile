@@ -8,6 +8,9 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
+# ✅ Give mvnw execute permission
+RUN chmod +x mvnw
+
 # Download dependencies
 RUN ./mvnw dependency:go-offline
 
@@ -22,7 +25,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-# ✅ Correct path: copy from builder’s /app/target directory
+# Copy the built JAR from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 9090
