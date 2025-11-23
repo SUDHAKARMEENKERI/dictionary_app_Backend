@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, Object>> handleDuplicateEntry(DataIntegrityViolationException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Duplicate entry");
-        body.put("message", "Word already exists in the database");
+        body.put("error", "Conflict Error");
+        body.put("message", "Please verify API url and payload data or Word already exist in database, Please search");
         return new ResponseEntity<>(body, HttpStatus.CONFLICT); // 409
     }
 

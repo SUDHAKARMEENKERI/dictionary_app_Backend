@@ -19,6 +19,15 @@ public class WordMeaning {
     @Column(nullable = false)
     private String mobile;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(name = "show_for_others", nullable = false)
+    private Boolean show_for_others;
+
     public Long getId() {
         return id;
     }
@@ -33,6 +42,18 @@ public class WordMeaning {
 
     public String getMobile() {
         return mobile;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Boolean getShow_for_others() {
+        return show_for_others;
     }
 
     public void setId(Long id) {
@@ -51,6 +72,18 @@ public class WordMeaning {
         this.mobile = mobile;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setShow_for_others(Boolean show_for_others) {
+        this.show_for_others = show_for_others;
+    }
+
     @Override
     public String toString() {
         return "WordMeaning{" +
@@ -58,6 +91,9 @@ public class WordMeaning {
                 ", word='" + word + '\'' +
                 ", meaning='" + meaning + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", show_for_others='" + show_for_others + '\'' +
                 '}';
     }
 }

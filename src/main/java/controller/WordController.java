@@ -1,5 +1,6 @@
 package controller;
 
+import model.BulkInsertWord;
 import model.UserSignUp;
 import model.WordMeaning;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,12 @@ public class WordController {
     public List<WordMeaning> findWordByMobile(@PathVariable Long mobile){
         return service.findWordsByMobile(String.valueOf(mobile));
     }
+
+    @PostMapping("/bulkInsert")
+    public List<WordMeaning> bulkInsert(@RequestBody BulkInsertWord request) {
+        return service.insertMultiple(request.getWords());
+    }
+
+
 
 }

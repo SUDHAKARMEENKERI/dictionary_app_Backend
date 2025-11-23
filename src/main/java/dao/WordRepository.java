@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface WordRepository extends JpaRepository<WordMeaning, Long> {
     Optional<WordMeaning> findByWord(String word);
-    boolean existsByWord(String word);
 
     @Query("SELECT u FROM WordMeaning u WHERE u.mobile = :mobile")
     List<WordMeaning> findWordsByMobile(@Param("mobile") String mobile);

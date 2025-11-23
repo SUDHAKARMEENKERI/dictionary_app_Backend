@@ -42,13 +42,15 @@ public class UserRegistration {
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginUser request) {
         Map<String, Object> response = new HashMap<>();
-
         boolean isAuthenticated = userSignUpService.authenticate(request.getMobile(), request.getPassword());
 
         if (isAuthenticated) {
+            Optional<UserSignUp> userData =  userSignUpService.getUserDetetails(Long.valueOf(request.getMobile()));
             response.put("status", "success");
             response.put("message", "Login successful");
-            response.put("mobile", request.getMobile());
+            response.put("mobile", userData.get().getMobile());
+            response.put("firstName", userData.get().getFirstName());
+            response.put("lastName", userData.get().getLastName());
             response.put("isLogIn", true);
             return ResponseEntity.ok(response);
         } else {
