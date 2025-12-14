@@ -60,7 +60,6 @@ public class WordService {
 
 
         for (BulkInsertWord.WordMeaningDto dto : wordList) {
-            System.out.println("Heloo ====" + dto.getWord());
             // Check if word already exists
             if (repo.findByWord(dto.getWord()).isEmpty()) {
                 WordMeaning wm = new WordMeaning();
@@ -75,7 +74,10 @@ public class WordService {
             // else skip or update depending on your business logic
         }
         return saved;
+    }
 
+    public long getTotalRecords() {
+        return repo.count();
     }
 
 }

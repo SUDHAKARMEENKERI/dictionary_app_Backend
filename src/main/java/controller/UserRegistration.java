@@ -65,4 +65,10 @@ public class UserRegistration {
         return userSignUpService.getUserDetetails(mobile);
     }
 
+    @GetMapping("/totalUserCount")
+    public Map<String, Long> getTotalRecords() {
+        long count = userSignUpService.getTotalRecords();
+        return Map.of("totalUserCount", count);
+    }
+
 }

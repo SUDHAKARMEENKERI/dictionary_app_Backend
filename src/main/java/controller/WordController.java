@@ -1,22 +1,19 @@
 package controller;
 
 import model.BulkInsertWord;
-import model.UserSignUp;
 import model.WordMeaning;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.WordService;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/words")
 @CrossOrigin(origins = "*")
 public class WordController {
-
     private final WordService service;
 
     public WordController(WordService service) {
@@ -58,6 +55,18 @@ public class WordController {
     public List<WordMeaning> bulkInsert(@RequestBody BulkInsertWord request) {
         return service.insertMultiple(request.getWords());
     }
+
+    @GetMapping("/totalWordCount")
+    public Map<String, Long> getTotalRecords() {
+        long count = service.getTotalRecords();
+        return Map.of("totalWordCount", count);
+    }
+
+    @GetMapping("/user/count/{mobile}")
+    public int findWordCountByMobile(@PathVariable Long mobile){
+        return service.findWordsByMobile(String.valueOf(mobile)).size();
+    }
+
 
 
 

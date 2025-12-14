@@ -53,7 +53,6 @@ public class UserSignUpService {
         repo.deleteById(id);
         return "User Deleted Successfully";
     }
-
     public boolean authenticate(String mobile, String password) {
         return repo.findByMobile(mobile)
                 .map(user ->  (user.getPassword()).equals(password))
@@ -64,4 +63,7 @@ public class UserSignUpService {
         return repo.findByMobile(String.valueOf(mobile));
     }
 
+    public long getTotalRecords() {
+        return repo.count();
+    }
 }
