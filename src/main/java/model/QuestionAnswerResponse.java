@@ -1,20 +1,12 @@
 package model;
 
-import jakarta.persistence.*;
+public class QuestionAnswerResponse {
 
-import java.util.Arrays;
-
-@Entity
-@Table(name = "questionAnswer")
-public class QuestionAnswer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String question;
     private String answer;
-    public String topic;
+    private String topic;
+    private String imageBase64;
 
     private String mobile;
 
@@ -26,59 +18,55 @@ public class QuestionAnswer {
         this.mobile = mobile;
     }
 
-    @Lob
-    @Basic(fetch = FetchType.EAGER)
-    private byte[] image;
-
     public Long getId() {
         return id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public byte[] getImage() {
-        return image;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
     public void setTopic(String topic) {
         this.topic = topic;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     @Override
     public String toString() {
-        return "QuestionAnswer{" +
+        return "QuestionAnswerResponse{" +
                 "id=" + id +
                 ", question='" + question + '\'' +
                 ", answer='" + answer + '\'' +
                 ", topic='" + topic + '\'' +
+                ", imageBase64='" + imageBase64 + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }
