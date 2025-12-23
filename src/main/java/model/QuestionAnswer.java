@@ -18,6 +18,10 @@ public class QuestionAnswer {
 
     private String mobile;
 
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    private byte[] image;
+
     public String getMobile() {
         return mobile;
     }
@@ -25,10 +29,6 @@ public class QuestionAnswer {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
-
-    @Lob
-    @Basic(fetch = FetchType.EAGER)
-    private byte[] image;
 
     public Long getId() {
         return id;

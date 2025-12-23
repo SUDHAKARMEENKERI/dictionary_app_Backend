@@ -27,23 +27,26 @@ public class QuestionAnswerController {
             @RequestParam String question,
             @RequestParam String answer,
             @RequestParam String topic,
+            @RequestParam String mobile,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.saveQA(question, answer, topic, image);
+            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile, image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @PostMapping(value = "/update", consumes = {"multipart/form-data"})
+    @PutMapping("/update/{id}")
     public ResponseEntity<QuestionAnswer> updateQA(
+            @RequestParam Long id,
             @RequestParam String question,
             @RequestParam String answer,
             @RequestParam String topic,
+            @RequestParam String mobile,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.saveQA(question, answer, topic, image);
+            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -75,7 +78,7 @@ public class QuestionAnswerController {
         return service.getAll();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

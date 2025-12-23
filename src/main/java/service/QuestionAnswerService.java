@@ -22,11 +22,12 @@ public class QuestionAnswerService {
         this.repository = repo;
     }
 
-    public QuestionAnswer saveQA(String question, String answer, String topic, MultipartFile image) throws IOException {
+    public QuestionAnswer saveQA(String question, String answer, String topic,String mobile, MultipartFile image) throws IOException {
         QuestionAnswer qa = new QuestionAnswer();
         qa.setQuestion(question);
         qa.setAnswer(answer);
         qa.setTopic(topic);
+        qa.setMobile(mobile);
 
         if (image != null && !image.isEmpty()) {
             qa.setImage(image.getBytes());   // 👈 store binary directly
@@ -49,6 +50,7 @@ public class QuestionAnswerService {
             String question,
             String answer,
             String topic,
+            String mobile,
             MultipartFile image) throws IOException {
 
         QuestionAnswer qa = repository.findById(id)
@@ -57,10 +59,13 @@ public class QuestionAnswerService {
         qa.setQuestion(question);
         qa.setAnswer(answer);
         qa.setTopic(topic);
+        qa.setMobile(mobile);
 
         // 🔥 only update image if new image is sent
         if (image != null && !image.isEmpty()) {
             qa.setImage(image.getBytes());
+        } else{
+            qa.setImage(null);
         }
 
         return repository.save(qa);
