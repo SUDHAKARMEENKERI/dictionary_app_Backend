@@ -1,22 +1,25 @@
 package service;
 
+import Helper.ExcelHelper;
 import dao.QuestionAnswerRepository;
 import errorHandle.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import model.QuestionAnswer;
 import model.QuestionAnswerResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class QuestionAnswerService {
 
     private final QuestionAnswerRepository repository;
+    private static final String UPLOAD_DIR = "uploads";
 
     public QuestionAnswerService(QuestionAnswerRepository repo){
         this.repository = repo;
@@ -83,7 +86,6 @@ public class QuestionAnswerService {
         return repository.count();
     }
 
-
     @Transactional(readOnly = true)
     public List<QuestionAnswerResponse> getByMobile(String mobile) {
 
@@ -106,6 +108,28 @@ public class QuestionAnswerService {
                     return dto;
                 })
                 .toList();
+    }
+    @Transactional
+    public void bulkUpload(MultipartFile excelFile) {
+
+        if (excelFile.isEmpty()) {
+            throw new RuntimeException("Excel file is empty");
+        }
+
+        try {
+            List<QuestionAnswer> list =
+                    ExcelHelper.parse(excelFile.getInputStream());
+
+            repository.saveAll(list);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Bulk upload failed: " + e.getMessage(), e);
+        }
+    }
+
+    public Page<QuestionAnswer> getPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return repository.findAll(pageable);
     }
 
 

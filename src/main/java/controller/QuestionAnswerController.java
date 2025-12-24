@@ -1,7 +1,8 @@
 package controller;
-
 import model.QuestionAnswer;
 import model.QuestionAnswerResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class QuestionAnswerController {
 
     private final QuestionAnswerService service;
-
+    private static final String UPLOAD_DIR = "uploads";
     public QuestionAnswerController(QuestionAnswerService service) {
         this.service = service;
     }
@@ -94,4 +95,23 @@ public class QuestionAnswerController {
     public int findQACountByMobile(@PathVariable Long mobile){
         return service.getByMobile(String.valueOf(mobile)).size();
     }
+    @PostMapping(
+            value = "/bulkUploadQA",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public Map<String, String> upload(
+            @RequestParam("excel") MultipartFile excel) {
+
+        service.bulkUpload(excel);
+        return Map.of("Result","Bulk upload successful");
+    }
+
+    @GetMapping("/list")
+    public Page<QuestionAnswer> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+
+        return service.getPaginated(page, size);
+    }
+
 }

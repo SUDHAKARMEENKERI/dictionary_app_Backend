@@ -57,8 +57,6 @@ public class WordService {
     @Transactional
     public List<WordMeaning> insertMultiple(List<BulkInsertWord.WordMeaningDto> wordList) {
         List<WordMeaning> saved = new ArrayList<>();
-
-
         for (BulkInsertWord.WordMeaningDto dto : wordList) {
             // Check if word already exists
             if (repo.findByWord(dto.getWord()).isEmpty()) {
