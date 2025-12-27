@@ -1,4 +1,5 @@
 package controller;
+import model.DropdownResponse;
 import model.QuestionAnswer;
 import model.QuestionAnswerResponse;
 import org.springframework.data.domain.Page;
@@ -112,6 +113,12 @@ public class QuestionAnswerController {
             @RequestParam(defaultValue = "20") int size) {
 
         return service.getPaginated(page, size);
+    }
+
+    @GetMapping
+    public List<?> getQuestionsByTopic(
+            @RequestParam String topic) {
+        return service.getByTopic(topic);
     }
 
 }

@@ -1,8 +1,7 @@
 package dao;
 
+import model.DropdownResponse;
 import model.TechnologyCategory;
-import model.TechnologyItem;
-import model.TechnologyItemDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -33,5 +32,13 @@ public interface TechnologyCategoryRepository
     ORDER BY c.sortOrder, i.sortOrder
     """)
     List<Object[]> findCategoryItemWithQuestionCount();
+
+    @Query("""
+        SELECT new model.DropdownResponse(c.id, c.name)
+        FROM TechnologyCategory c
+        WHERE c.isActive = true
+        ORDER BY c.sortOrder
+    """)
+    List<DropdownResponse> findActiveCategories();
 
 }

@@ -3,6 +3,7 @@ package service;
 import Helper.ExcelHelper;
 import dao.QuestionAnswerRepository;
 import errorHandle.ResourceNotFoundException;
+import model.DropdownResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import model.QuestionAnswer;
 import model.QuestionAnswerResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
@@ -130,6 +133,9 @@ public class QuestionAnswerService {
     public Page<QuestionAnswer> getPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return repository.findAll(pageable);
+    }
+    public List<?> getByTopic(String topic) {
+        return repository.findQAByTopic(topic);
     }
 
 

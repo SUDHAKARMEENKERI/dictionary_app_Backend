@@ -1,8 +1,10 @@
 package service;
 
 import dao.TechnologyCategoryRepository;
+import dao.TechnologyItemRepository;
 import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,23 +14,8 @@ public class TechnologyService {
 
     @Autowired
     private TechnologyCategoryRepository repository;
-
-//    public List<TechnologyResponse> getVisibleTechnologies() {
-//
-//        return repository.findVisibleTechnologies()
-//                .stream()
-//                .sorted(Comparator.comparingInt(TechnologyCategory::getSortOrder))
-//                .map(cat -> new TechnologyResponse(
-//                        cat.getName(),
-//                        cat.getSlug(),
-//                        cat.getItems().stream()
-//                                .filter(TechnologyItem::isActive)
-//                                .sorted(Comparator.comparingInt(TechnologyItem::getSortOrder))
-//                                .map(i -> new TechnologyItemResponse(i.getName(), i.getIcon()))
-//                                .toList()
-//                ))
-//                .toList();
-//    }
+    @Autowired
+    private TechnologyItemRepository itemRepo;
 
     public List<TechnologyCategoryDto> getTechnologyForUi() {
 
@@ -62,6 +49,16 @@ public class TechnologyService {
         }
 
         return new ArrayList<>(map.values());
+    }
+
+    @Cacheable("technology-categories")
+    public List<DropdownResponse> getCategories() {
+        return repository.findActiveCategories();
+    }
+
+    @Cacheable(value = "technology-items", key = "#category_id")
+    public List<DropdownResponse> getItems(Long category_id) {
+        return itemRepo.findItemsByCategory(category_id);
     }
 
 }
