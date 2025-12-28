@@ -3,7 +3,6 @@ package service;
 import Helper.ExcelHelper;
 import dao.QuestionAnswerRepository;
 import errorHandle.ResourceNotFoundException;
-import model.DropdownResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import model.QuestionAnswer;
 import model.QuestionAnswerResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
@@ -28,12 +25,15 @@ public class QuestionAnswerService {
         this.repository = repo;
     }
 
-    public QuestionAnswer saveQA(String question, String answer, String topic,String mobile, MultipartFile image) throws IOException {
+    public QuestionAnswer saveQA(String question, String answer,
+                                 String topic, String mobile, String questionType,
+                                 MultipartFile image) throws IOException {
         QuestionAnswer qa = new QuestionAnswer();
         qa.setQuestion(question);
         qa.setAnswer(answer);
         qa.setTopic(topic);
         qa.setMobile(mobile);
+        qa.setQuestionType(questionType);
 
         if (image != null && !image.isEmpty()) {
             qa.setImage(image.getBytes());   // 👈 store binary directly
@@ -57,6 +57,7 @@ public class QuestionAnswerService {
             String answer,
             String topic,
             String mobile,
+            String questionType,
             MultipartFile image) throws IOException {
 
         QuestionAnswer qa = repository.findById(id)
@@ -66,6 +67,7 @@ public class QuestionAnswerService {
         qa.setAnswer(answer);
         qa.setTopic(topic);
         qa.setMobile(mobile);
+        qa.setQuestionType(questionType);
 
         // 🔥 only update image if new image is sent
         if (image != null && !image.isEmpty()) {

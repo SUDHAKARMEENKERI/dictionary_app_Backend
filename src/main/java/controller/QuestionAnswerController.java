@@ -30,9 +30,10 @@ public class QuestionAnswerController {
             @RequestParam String answer,
             @RequestParam String topic,
             @RequestParam String mobile,
+            @RequestParam String questionType,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile, image);
+            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile,questionType, image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -46,9 +47,10 @@ public class QuestionAnswerController {
             @RequestParam String answer,
             @RequestParam String topic,
             @RequestParam String mobile,
+            @RequestParam String questionType,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,image);
+            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,questionType,image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -101,6 +103,7 @@ public class QuestionAnswerController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public Map<String, String> upload(
+
             @RequestParam("excel") MultipartFile excel) {
 
         service.bulkUpload(excel);
