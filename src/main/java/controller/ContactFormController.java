@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class ContactFormController {
 
     @Autowired
