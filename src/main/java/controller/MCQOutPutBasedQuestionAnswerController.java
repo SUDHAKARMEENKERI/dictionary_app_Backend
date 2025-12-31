@@ -26,8 +26,15 @@ public class MCQOutPutBasedQuestionAnswerController {
         return ResponseEntity.ok(service.save(request));
     }
 
+//    @GetMapping("/getMcq")
+//    public List<MCQOutPutBasedQuestionAnswer> get() {
+//        return this.service.getAll();
+//    }
+
     @GetMapping("/getMcq")
-    public List<MCQOutPutBasedQuestionAnswer> get() {
-        return this.service.getAll();
+    public List<MCQOutPutBasedQuestionAnswer> get( @RequestParam String questionType,
+                                                   @RequestParam(required = false) String topic,
+                                                   @RequestParam(required = false) Long category) {
+        return this.service.getMcqQAByParams(questionType, topic, category);
     }
 }

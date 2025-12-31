@@ -30,10 +30,12 @@ public class QuestionAnswerController {
             @RequestParam String answer,
             @RequestParam String topic,
             @RequestParam String mobile,
+            @RequestParam String level,
+            @RequestParam String category,
             @RequestParam String questionType,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile,questionType, image);
+            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile,level,category, questionType, image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -47,10 +49,12 @@ public class QuestionAnswerController {
             @RequestParam String answer,
             @RequestParam String topic,
             @RequestParam String mobile,
+            @RequestParam String level,
+            @RequestParam String category,
             @RequestParam String questionType,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,questionType,image);
+            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,level, category, questionType,image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -67,6 +71,10 @@ public class QuestionAnswerController {
         response.setQuestion(qa.getQuestion());
         response.setAnswer(qa.getAnswer());
         response.setTopic(qa.getTopic());
+        response.setLevel(qa.getLevel());
+        response.setCategory(qa.getCategory());
+        response.setQuestionType(qa.getQuestionType());
+
 
         if (qa.getImage() != null) {
             response.setImageBase64(

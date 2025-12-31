@@ -26,13 +26,18 @@ public class QuestionAnswerService {
     }
 
     public QuestionAnswer saveQA(String question, String answer,
-                                 String topic, String mobile, String questionType,
+                                 String topic, String mobile,
+                                 String level,
+                                 String category,
+                                 String questionType,
                                  MultipartFile image) throws IOException {
         QuestionAnswer qa = new QuestionAnswer();
         qa.setQuestion(question);
         qa.setAnswer(answer);
         qa.setTopic(topic);
         qa.setMobile(mobile);
+        qa.setLevel(level);
+        qa.setCategory(category);
         qa.setQuestionType(questionType);
 
         if (image != null && !image.isEmpty()) {
@@ -57,6 +62,8 @@ public class QuestionAnswerService {
             String answer,
             String topic,
             String mobile,
+            String level,
+            String category,
             String questionType,
             MultipartFile image) throws IOException {
 
@@ -67,6 +74,8 @@ public class QuestionAnswerService {
         qa.setAnswer(answer);
         qa.setTopic(topic);
         qa.setMobile(mobile);
+        qa.setLevel(level);
+        qa.setCategory(category);
         qa.setQuestionType(questionType);
 
         // 🔥 only update image if new image is sent
@@ -139,6 +148,5 @@ public class QuestionAnswerService {
     public List<?> getByTopic(String topic) {
         return repository.findQAByTopic(topic);
     }
-
 
 }

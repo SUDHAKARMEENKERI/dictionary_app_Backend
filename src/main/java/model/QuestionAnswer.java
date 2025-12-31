@@ -19,7 +19,11 @@ public class QuestionAnswer {
     private String answer;
     public String topic;
     private String mobile;
+
+    private String level;
     private String questionType;
+
+    private String category;
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
@@ -33,7 +37,9 @@ public class QuestionAnswer {
                 ", answer='" + answer + '\'' +
                 ", topic='" + topic + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", level='" + level + '\'' +
                 ", questionType='" + questionType + '\'' +
+                ", category='" + category + '\'' +
                 ", image=" + Arrays.toString(image) +
                 '}';
     }

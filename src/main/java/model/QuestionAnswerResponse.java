@@ -1,5 +1,10 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class QuestionAnswerResponse {
 
     private Long id;
@@ -10,53 +15,10 @@ public class QuestionAnswerResponse {
 
     private String mobile;
 
-    public String getMobile() {
-        return mobile;
-    }
+    private String level;
+    private String category;
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
-    public String getImageBase64() {
-        return imageBase64;
-    }
-
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
-    }
+    private String questionType;
 
     @Override
     public String toString() {
@@ -67,6 +29,9 @@ public class QuestionAnswerResponse {
                 ", topic='" + topic + '\'' +
                 ", imageBase64='" + imageBase64 + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", level='" + level + '\'' +
+                ", category='" + category + '\'' +
+                ", questionType='" + questionType + '\'' +
                 '}';
     }
 }

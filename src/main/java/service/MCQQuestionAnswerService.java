@@ -28,7 +28,13 @@ public class MCQQuestionAnswerService {
         return repository.save(req);
     }
 
-    public List<MCQOutPutBasedQuestionAnswer> getAll(){
-        return repository.findAll();
+//    public List<MCQOutPutBasedQuestionAnswer> getAll(){
+//        return repository.findAll();
+//    }
+
+    public List<MCQOutPutBasedQuestionAnswer> getMcqQAByParams(String questionType,
+                                                               String topic,
+                                                               Long category ){
+        return repository.findMcqQAByParams(questionType,topic,category);
     }
 }

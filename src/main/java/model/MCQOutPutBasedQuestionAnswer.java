@@ -21,6 +21,7 @@ public class MCQOutPutBasedQuestionAnswer {
     private String category;
     private String topic;
     private String mobile;
+    private String level;
     private String questionType;
 
     @ElementCollection
