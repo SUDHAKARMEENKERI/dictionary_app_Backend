@@ -33,9 +33,10 @@ public class QuestionAnswerController {
             @RequestParam String level,
             @RequestParam String category,
             @RequestParam String questionType,
+            @RequestParam String code,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile,level,category, questionType, image);
+            QuestionAnswer saved = service.saveQA(question, answer, topic,mobile,level,category, questionType, code, image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -52,9 +53,11 @@ public class QuestionAnswerController {
             @RequestParam String level,
             @RequestParam String category,
             @RequestParam String questionType,
+            @RequestParam String code,
             @RequestParam(required = false) MultipartFile image) {
         try {
-            QuestionAnswer saved = service.updateQA(id, question, answer, topic, mobile,level, category, questionType,image);
+            QuestionAnswer saved = service .updateQA(id, question, answer, topic,
+                    mobile,level, category, questionType,code,image);
             return ResponseEntity.ok(saved);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

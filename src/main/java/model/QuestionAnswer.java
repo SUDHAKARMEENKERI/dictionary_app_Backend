@@ -25,6 +25,8 @@ public class QuestionAnswer {
 
     private String category;
 
+    private String code;
+
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private byte[] image;
