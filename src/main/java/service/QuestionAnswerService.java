@@ -30,7 +30,6 @@ public class QuestionAnswerService {
                                  String level,
                                  String category,
                                  String questionType,
-                                 String code,
                                  MultipartFile image) throws IOException {
         QuestionAnswer qa = new QuestionAnswer();
         qa.setQuestion(question);
@@ -40,7 +39,6 @@ public class QuestionAnswerService {
         qa.setLevel(level);
         qa.setCategory(category);
         qa.setQuestionType(questionType);
-        qa.setCode(code);
 
         if (image != null && !image.isEmpty()) {
             qa.setImage(image.getBytes());   // 👈 store binary directly
@@ -67,7 +65,6 @@ public class QuestionAnswerService {
             String level,
             String category,
             String questionType,
-            String code,
             MultipartFile image) throws IOException {
 
         QuestionAnswer qa = repository.findById(id)
@@ -80,7 +77,6 @@ public class QuestionAnswerService {
         qa.setLevel(level);
         qa.setCategory(category);
         qa.setQuestionType(questionType);
-        qa.setCode(code);
 
         // 🔥 only update image if new image is sent
         if (image != null && !image.isEmpty()) {

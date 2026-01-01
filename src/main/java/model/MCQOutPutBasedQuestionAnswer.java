@@ -23,6 +23,7 @@ public class MCQOutPutBasedQuestionAnswer {
     private String mobile;
     private String level;
     private String questionType;
+    private String code;
 
     @ElementCollection
     private List<String> options;
