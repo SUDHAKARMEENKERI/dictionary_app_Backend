@@ -24,6 +24,7 @@ public class MCQOutPutBasedQuestionAnswer {
     private String level;
     private String questionType;
     private String code;
+    private boolean isAdmin;
 
     @ElementCollection
     private List<String> options;

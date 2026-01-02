@@ -3,6 +3,8 @@ package service;
 import Helper.ExcelHelper;
 import dao.QuestionAnswerRepository;
 import errorHandle.ResourceNotFoundException;
+import model.UserSignUp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,10 @@ public class QuestionAnswerService {
 
     private final QuestionAnswerRepository repository;
     private static final String UPLOAD_DIR = "uploads";
+    
+    @Autowired
+    private UserSignUpService signUpService;
+    
 
     public QuestionAnswerService(QuestionAnswerRepository repo){
         this.repository = repo;
@@ -39,6 +45,9 @@ public class QuestionAnswerService {
         qa.setLevel(level);
         qa.setCategory(category);
         qa.setQuestionType(questionType);
+
+        Optional<UserSignUp> userDetetails =  signUpService.getUserDetetails(Long.valueOf(mobile));
+        qa.setAdmin(userDetetails.get().isAdmin());
 
         if (image != null && !image.isEmpty()) {
             qa.setImage(image.getBytes());   // 👈 store binary directly

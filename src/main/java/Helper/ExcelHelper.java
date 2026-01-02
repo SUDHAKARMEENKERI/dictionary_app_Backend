@@ -68,13 +68,36 @@ public class ExcelHelper {
                 );
 
                 // topic is optional
-                if (headerMap.containsKey("topic")) {
-                    qa.setTopic(
-                            formatter.formatCellValue(
-                                    row.getCell(headerMap.get("topic"))
-                            )
-                    );
-                }
+//                if (headerMap.containsKey("topic")) {
+//                    qa.setTopic(
+//                            formatter.formatCellValue(
+//                                    row.getCell(headerMap.get("topic"))
+//                            )
+//                    );
+//                }
+
+                qa.setTopic(
+                        formatter.formatCellValue(
+                                row.getCell(headerMap.get("topic"))
+                        )
+                );
+
+                qa.setCategory(
+                        formatter.formatCellValue(
+                                row.getCell(headerMap.get("category"))
+                        )
+                );
+                qa.setLevel(
+                        formatter.formatCellValue(
+                                row.getCell(headerMap.get("level"))
+                        )
+                );
+                qa.setQuestionType(
+                        formatter.formatCellValue(
+                                row.getCell(headerMap.get("questionType"))
+                        )
+                );
+
 
                 list.add(qa);
             }

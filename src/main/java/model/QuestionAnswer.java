@@ -26,6 +26,7 @@ public class QuestionAnswer {
     private String category;
 
     private String code;
+    private boolean isAdmin;
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
