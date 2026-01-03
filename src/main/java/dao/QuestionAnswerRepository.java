@@ -21,5 +21,5 @@ public interface QuestionAnswerRepository extends JpaRepository<QuestionAnswer,L
     FROM QuestionAnswer qa
     WHERE LOWER(TRIM(qa.topic)) = LOWER(TRIM(:topic))
     """)
-    List<QuestionAnswerResponse> findQAByTopic(@Param("topic") String topic);
+    List<QuestionAnswer> findQAByTopic(@Param("topic") String topic);
 }

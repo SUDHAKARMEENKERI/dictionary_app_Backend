@@ -6,5 +6,4 @@ public interface QuestionAnswerResponse {
 
     String getLevel();
     String getTopic();
-
 }
