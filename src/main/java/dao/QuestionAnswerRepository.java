@@ -20,6 +20,7 @@ public interface QuestionAnswerRepository extends JpaRepository<QuestionAnswer,L
     SELECT qa
     FROM QuestionAnswer qa
     WHERE LOWER(TRIM(qa.topic)) = LOWER(TRIM(:topic))
+    AND qa.isAdmin = true
     """)
     List<QuestionAnswer> findQAByTopic(@Param("topic") String topic);
 }
