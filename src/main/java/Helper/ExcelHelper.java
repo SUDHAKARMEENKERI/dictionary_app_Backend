@@ -32,12 +32,13 @@ public class ExcelHelper {
             }
 
             // 2️⃣ Validate mandatory headers
-            List<String> required = List.of("mobile", "question", "answer");
-            for (String col : required) {
+            String[] requiredCol = {
+                    "mobile", "question", "answer","topic", "category", "level","admin","questiontype"
+            };
+
+            for (String col : requiredCol) {
                 if (!headerMap.containsKey(col)) {
-                    throw new RuntimeException(
-                            "Missing mandatory column: " + col
-                    );
+                    throw new RuntimeException("Missing Excel column: " + col);
                 }
             }
 
@@ -49,57 +50,21 @@ public class ExcelHelper {
 
                 QuestionAnswer qa = new QuestionAnswer();
 
-                qa.setMobile(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("mobile"))
-                        )
-                );
+                qa.setMobile(formatter.formatCellValue(row.getCell(headerMap.get("mobile"))));
+                qa.setQuestion(formatter.formatCellValue(row.getCell(headerMap.get("question"))));
+                qa.setAnswer(formatter.formatCellValue(row.getCell(headerMap.get("answer"))));
 
-                qa.setQuestion(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("question"))
-                        )
-                );
+                if (headerMap.containsKey("topic")) {
+                    qa.setTopic(formatter.formatCellValue(row.getCell(headerMap.get("topic"))));
+                }
 
-                qa.setAnswer(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("answer"))
-                        )
-                );
-
-                // topic is optional
-//                if (headerMap.containsKey("topic")) {
-//                    qa.setTopic(
-//                            formatter.formatCellValue(
-//                                    row.getCell(headerMap.get("topic"))
-//                            )
-//                    );
-//                }
-
-                qa.setTopic(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("topic"))
-                        )
-                );
-
-                qa.setCategory(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("category"))
-                        )
-                );
-                qa.setLevel(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("level"))
-                        )
-                );
-                qa.setQuestionType(
-                        formatter.formatCellValue(
-                                row.getCell(headerMap.get("questionType"))
-                        )
-                );
-
+                qa.setCategory(formatter.formatCellValue(row.getCell(headerMap.get("category"))));
+                qa.setLevel(formatter.formatCellValue(row.getCell(headerMap.get("level"))));
+                qa.setQuestionType(formatter.formatCellValue(row.getCell(headerMap.get("questiontype"))));
+                qa.setAdmin(Boolean.parseBoolean(formatter.formatCellValue(row.getCell(headerMap.get("admin")))));
 
                 list.add(qa);
+
             }
 
             return list;
