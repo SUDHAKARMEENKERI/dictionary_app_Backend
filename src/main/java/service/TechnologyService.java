@@ -51,12 +51,11 @@ public class TechnologyService {
         return new ArrayList<>(map.values());
     }
 
-    @Cacheable("technology-categories")
     public List<DropdownResponse> getCategories() {
         return repository.findActiveCategories();
     }
 
-    @Cacheable(value = "technology-items", key = "#category_id")
+
     public List<DropdownResponse> getItems(Long category_id) {
         return itemRepo.findItemsByCategory(category_id);
     }

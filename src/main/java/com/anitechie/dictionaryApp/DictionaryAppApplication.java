@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "errorHandle")
 @EnableJpaRepositories(basePackages = "dao")
 @EntityScan(basePackages = "model")
-@EnableCaching
 public class DictionaryAppApplication {
 
 	public static void main(String[] args) {
