@@ -22,7 +22,8 @@ public class PageViewController {
         int count = service.incrementPageView(req);
         return ResponseEntity.ok(Map.of(
                 "pageName", req.getPageName(),
-                "viewCount", count
+                "viewCount", count,
+                "mobile", req.getMobile()
         ));
     }
 }

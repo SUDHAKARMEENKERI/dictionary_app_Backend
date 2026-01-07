@@ -1,5 +1,7 @@
 package controller;
 
+import org.springframework.util.ReflectionUtils;
+import java.lang.reflect.Field;
 import model.LoginUser;
 import model.UserSignUp;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +17,33 @@ import java.util.Optional;
 @RequestMapping("api/user")
 @CrossOrigin(origins = "*")
 public class UserRegistration {
-
-    private final UserSignUpService userSignUpService;
+    private final UserSignUpService userSignUpService;// Add this import at the top
 
     public UserRegistration(UserSignUpService userSignUpService) {
         this.userSignUpService = userSignUpService;
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserSignUp> patchUser(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        Optional<UserSignUp> userOptional = Optional.ofNullable(userSignUpService.getUserById(id));
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        UserSignUp user = userOptional.get();
+
+        updates.forEach((key, value) -> {
+            // Skip id field to avoid setting it
+            if ("id".equalsIgnoreCase(key)) {
+                return;
+            }
+            Field field = ReflectionUtils.findField(UserSignUp.class, key);
+            if (field != null) {
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, user, value);
+            }
+        });
+        UserSignUp updatedUser = userSignUpService.updateUser(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping
@@ -70,5 +94,6 @@ public class UserRegistration {
         long count = userSignUpService.getTotalRecords();
         return Map.of("totalUserCount", count);
     }
+
 
 }

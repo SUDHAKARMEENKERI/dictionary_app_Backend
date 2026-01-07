@@ -32,6 +32,7 @@ public class UserSignUp {
     private String confirmPassword;
 
     private boolean isAdmin = false;
+    private String bio;
 
     @Override
     public String toString() {

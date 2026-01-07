@@ -17,4 +17,5 @@ public class PageView {
     private String pageName;
     private int viewCount;
     private LocalDate date;
+    private String mobile;
 }
