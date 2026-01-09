@@ -19,4 +19,12 @@ public interface TechnologyItemRepository
         ORDER BY i.sortOrder
     """)
     List<DropdownResponse> findItemsByCategory(@Param("category_id") Long category_id);
+
+    @Query("""
+        SELECT LOWER(qa.topic), qa.questionType, COUNT(qa.id)
+        FROM MCQOutPutBasedQuestionAnswer qa
+        WHERE qa.questionType IN ('MCQ', 'OUTPUTBASED','OUTPUTBASEDMCQ')
+        GROUP BY LOWER(qa.topic), qa.questionType
+        """)
+    List<Object[]> findQuestionTypeCountsByTopic();
 }

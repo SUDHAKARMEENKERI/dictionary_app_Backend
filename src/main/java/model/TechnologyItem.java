@@ -26,6 +26,10 @@ public class TechnologyItem {
 
     private Long questionCount;
 
+    private Long mcqCount;
+    private Long outputBasedCount;
+    private Long outputBasedMcqCount;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private TechnologyCategory category;
