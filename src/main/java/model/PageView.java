@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "page_view")
@@ -16,6 +17,6 @@ public class PageView {
 
     private String pageName;
     private int viewCount;
-    private LocalDate date;
+    private LocalDateTime date;
     private String mobile;
 }

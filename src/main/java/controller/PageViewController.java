@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.PageViewService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,5 +26,10 @@ public class PageViewController {
                 "viewCount", count,
                 "mobile", req.getMobile()
         ));
+    }
+
+    @GetMapping()
+    public List<PageView> getAllPageViewers() {
+        return service.getAllPageViewers();
     }
 }

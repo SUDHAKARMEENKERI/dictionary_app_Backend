@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PageViewService {
@@ -17,7 +19,7 @@ public class PageViewService {
 
 
     public int incrementPageView(PageView req) {
-        LocalDate today = LocalDate.now();
+        LocalDateTime today = LocalDateTime.now();
         PageView pageView = repository.findByPageNameAndDate(req.getPageName(), today)
             .orElseGet(() -> {
                 PageView pv = new PageView();
@@ -31,5 +33,9 @@ public class PageViewService {
         pageView.setViewCount(pageView.getViewCount() + 1);
         repository.save(pageView);
         return pageView.getViewCount();
+    }
+
+    public List<PageView> getAllPageViewers() {
+        return repository.findAll();
     }
 }
