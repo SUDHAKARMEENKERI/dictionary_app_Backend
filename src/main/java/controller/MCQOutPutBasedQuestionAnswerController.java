@@ -2,6 +2,7 @@ package controller;
 
 import jakarta.validation.Valid;
 import model.MCQOutPutBasedQuestionAnswer;
+import model.WordMeaning;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.MCQQuestionAnswerService;
@@ -37,4 +38,16 @@ public class MCQOutPutBasedQuestionAnswerController {
                                                    @RequestParam(required = false) Long category) {
         return this.service.getMcqQAByParams(questionType, topic, category);
     }
+
+    @PutMapping("update/{id}")
+    public MCQOutPutBasedQuestionAnswer update(@PathVariable Long id, @RequestBody MCQOutPutBasedQuestionAnswer mcqQA) {
+        return (MCQOutPutBasedQuestionAnswer) service.updateMCQQA(id, mcqQA);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteMCQ(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
