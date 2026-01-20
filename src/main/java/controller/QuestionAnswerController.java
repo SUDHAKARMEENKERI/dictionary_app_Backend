@@ -113,7 +113,7 @@ public class QuestionAnswerController {
     )
     public Map<String, String> upload(
 
-            @RequestParam("excel") MultipartFile excel) {
+            @RequestParam("file") MultipartFile excel) {
 
         service.bulkUpload(excel);
         return Map.of("Result","Bulk upload successful");

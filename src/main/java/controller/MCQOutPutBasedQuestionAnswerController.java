@@ -3,11 +3,14 @@ package controller;
 import jakarta.validation.Valid;
 import model.MCQOutPutBasedQuestionAnswer;
 import model.WordMeaning;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import service.MCQQuestionAnswerService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mcqQuestions")
@@ -27,11 +30,6 @@ public class MCQOutPutBasedQuestionAnswerController {
         return ResponseEntity.ok(service.save(request));
     }
 
-//    @GetMapping("/getMcq")
-//    public List<MCQOutPutBasedQuestionAnswer> get() {
-//        return this.service.getAll();
-//    }
-
     @GetMapping("/getMcq")
     public List<MCQOutPutBasedQuestionAnswer> get( @RequestParam String questionType,
                                                    @RequestParam(required = false) String topic,
@@ -48,6 +46,12 @@ public class MCQOutPutBasedQuestionAnswerController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteMCQ(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/bulk-upload")
+    public Map<String,String> bulkUpload(@RequestParam("file") MultipartFile file) {
+        int count = service.bulkUploadFromExcel(file);
+        return Map.of("result","Bulk upload successful", "recordsAdded", String.valueOf(count));
     }
 
 }
