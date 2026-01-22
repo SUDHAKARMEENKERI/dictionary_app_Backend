@@ -49,9 +49,16 @@ public class MCQOutPutBasedQuestionAnswerController {
     }
 
     @PostMapping("/bulk-upload")
-    public Map<String,String> bulkUpload(@RequestParam("file") MultipartFile file) {
-        int count = service.bulkUploadFromExcel(file);
-        return Map.of("result","Bulk upload successful", "recordsAdded", String.valueOf(count));
+    public ResponseEntity<Map<String, String>> bulkUpload(@RequestParam("file") MultipartFile file) {
+        try {
+            int count = service.bulkUploadFromExcel(file);
+            return ResponseEntity.ok(Map.of("result", "Bulk upload successful", "recordsAdded", String.valueOf(count)));
+        } catch (Exception e) {
+            // Log the error for debugging
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Bulk upload failed", "details", e.getMessage()));
+        }
     }
 
 }
