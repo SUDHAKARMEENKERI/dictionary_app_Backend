@@ -48,7 +48,7 @@ public class MCQOutPutBasedQuestionAnswerController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/bulk-upload")
+    @PostMapping("/bulkUpload")
     public ResponseEntity<Map<String, String>> bulkUpload(@RequestParam("file") MultipartFile file) {
         try {
             int count = service.bulkUploadFromExcel(file);
