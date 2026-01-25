@@ -68,6 +68,10 @@ public class MCQQuestionAnswerService {
         mcq.setLevel(rowData.getOrDefault("level", ""));
         mcq.setMobile(rowData.getOrDefault("mobile", ""));
 
+        // Set admin true if mobile is 9611675325
+        String mobile = rowData.getOrDefault("mobile", "");
+        mcq.setAdmin("9611675325".equals(mobile));
+
         // Handle options: either as separate columns or as a single "options" column
         List<String> options = new ArrayList<>();
         if (rowData.containsKey("options")) {
