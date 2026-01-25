@@ -54,47 +54,6 @@ public class MCQQuestionAnswerService {
         repository.deleteById(id);
     }
 
-    public int bulkUploadFromExcel(MultipartFile file) {
-        List<MCQOutPutBasedQuestionAnswer> mcqList = new ArrayList<>();
-        try (InputStream is = file.getInputStream()) {
-            Workbook workbook = WorkbookFactory.create(is);
-            Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = sheet.iterator();
-            if (!rowIterator.hasNext()) return 0; // No data
-
-            // Read header row
-            Row headerRow = rowIterator.next();
-            List<String> headers = new ArrayList<>();
-            for (Cell cell : headerRow) {
-                headers.add(cell.getStringCellValue().trim());
-            }
-
-            // For each data row
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                Map<String, String> rowData = new HashMap<>();
-                for (int i = 0; i < headers.size(); i++) {
-                    Cell cell = row.getCell(i);
-                    String value = "";
-                    if (cell != null) {
-                        if (cell.getCellType() == CellType.NUMERIC) {
-                            value = String.valueOf((long)cell.getNumericCellValue());
-                        } else {
-                            value = cell.getStringCellValue();
-                        }
-                    }
-                    rowData.put(headers.get(i), value);
-                }
-                MCQOutPutBasedQuestionAnswer mcq = mapRowToMCQ(rowData);
-                mcqList.add(mcq);
-            }
-            repository.saveAll(mcqList);
-            return mcqList.size();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to process Excel file: " + e.getMessage(), e);
-        }
-    }
-
     // Map row data to MCQOutPutBasedQuestionAnswer, supporting dynamic columns
     private MCQOutPutBasedQuestionAnswer mapRowToMCQ(Map<String, String> rowData) {
         MCQOutPutBasedQuestionAnswer mcq = new MCQOutPutBasedQuestionAnswer();
@@ -123,4 +82,72 @@ public class MCQQuestionAnswerService {
 
         return mcq;
     }
+
+        // Utility method to safely get cell value as String
+    private String getCellValueAsString(Cell cell) {
+        if (cell == null) return "";
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue().trim();
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toString();
+                } else {
+                    double d = cell.getNumericCellValue();
+                    if (d == (long) d) return String.valueOf((long) d);
+                    else return String.valueOf(d);
+                }
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                try {
+                    return cell.getStringCellValue().trim();
+                } catch (Exception e) {
+                    try {
+                        return String.valueOf(cell.getNumericCellValue());
+                    } catch (Exception ex) {
+                        return "";
+                    }
+                }
+            case BLANK:
+            case _NONE:
+            case ERROR:
+            default:
+                return "";
+        }
+    }
+
+    public int bulkUploadFromExcel(MultipartFile file) {
+        List<MCQOutPutBasedQuestionAnswer> mcqList = new ArrayList<>();
+        try (InputStream is = file.getInputStream()) {
+            Workbook workbook = WorkbookFactory.create(is);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+            if (!rowIterator.hasNext()) return 0; // No data
+
+            // Read header row
+            Row headerRow = rowIterator.next();
+            List<String> headers = new ArrayList<>();
+            for (Cell cell : headerRow) {
+                headers.add(getCellValueAsString(cell));
+            }
+
+            // For each data row
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Map<String, String> rowData = new HashMap<>();
+                for (int i = 0; i < headers.size(); i++) {
+                    Cell cell = row.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    rowData.put(headers.get(i), getCellValueAsString(cell));
+                }
+                MCQOutPutBasedQuestionAnswer mcq = mapRowToMCQ(rowData);
+                mcqList.add(mcq);
+            }
+            repository.saveAll(mcqList);
+            return mcqList.size();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to process Excel file: " + e.getMessage(), e);
+        }
+    }
+
 }
