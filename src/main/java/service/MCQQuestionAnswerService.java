@@ -62,16 +62,9 @@ public class MCQQuestionAnswerService {
 
         List<String> missing = new ArrayList<>();
         if (rowData.getOrDefault("question", "").isEmpty()) missing.add("question");
-        if (rowData.getOrDefault("correctAnswer", "").isEmpty()) missing.add("correctAnswer");
         if (rowData.getOrDefault("mobile", "").isEmpty()) missing.add("mobile");
-        boolean hasOptions = !rowData.getOrDefault("options", "").isEmpty();
-        for (String key : Arrays.asList("optionA", "optionB", "optionC", "optionD", "optA", "optB", "optC", "optD")) {
-            if (!rowData.getOrDefault(key, "").isEmpty()) {
-                hasOptions = true;
-                break;
-            }
-        }
-        if (!hasOptions) missing.add("options");
+        // correctAnswer and options are now optional
+
         if (!missing.isEmpty()) {
             throw new RuntimeException("Row " + (rowNum + 1) + " missing required fields: " + String.join(", ", missing));
         }
