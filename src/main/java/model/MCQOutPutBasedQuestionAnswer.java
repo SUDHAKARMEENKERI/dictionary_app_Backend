@@ -16,6 +16,7 @@ public class MCQOutPutBasedQuestionAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String question;
     private String answer;
     private String category;
@@ -23,6 +24,7 @@ public class MCQOutPutBasedQuestionAnswer {
     private String mobile;
     private String level;
     private String questionType;
+    @Column(columnDefinition = "TEXT")
     private String code;
     private boolean isAdmin;
 

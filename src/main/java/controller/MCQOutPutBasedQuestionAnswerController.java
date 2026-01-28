@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.MCQQuestionAnswerService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,16 +49,19 @@ public class MCQOutPutBasedQuestionAnswerController {
         return ResponseEntity.noContent().build();
     }
 
+    // src/main/java/controller/MCQOutPutBasedQuestionAnswerController.java
     @PostMapping("/bulkUpload")
-    public ResponseEntity<Map<String, String>> bulkUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> bulkUpload(@RequestParam("file") MultipartFile file) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            int count = service.bulkUploadFromExcel(file);
-            return ResponseEntity.ok(Map.of("result", "Bulk upload successful", "recordsAdded", String.valueOf(count)));
+            List<MCQOutPutBasedQuestionAnswer> saved = service.bulkUploadFromExcel(file);
+            response.put("result", "Bulk upload successful");
+            response.put("recordsAdded", saved.size());
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // Log the error for debugging
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Bulk upload failed", "details", e.getMessage()));
+            response.put("result", "Bulk upload failed");
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
